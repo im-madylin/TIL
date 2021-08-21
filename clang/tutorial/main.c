@@ -1,36 +1,34 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main(void) {
-    int d=1; //방향전환용 변수
-    int x=0, y=-1; //x:가로, y:세로
-    int max, jmax; //반복문 실행 조건문
-    int cnt=1; //배열에 채워넣을 숫자
+    int i = 0, j = 0;
+    int win = 0, draw = 0;
+    char arr[3][8] = {"가위", "바위", "보"};
 
-    printf("숫자를 입력하시오:");
-    scanf("%d", &max);
-    int arr[max][max];
-    jmax=max;
+    printf("바위는 1, 가위는 2, 보는 3 \n");
 
-    while (jmax >= 0) {
-        for (int i = 0; i < jmax; i++) {
-            y=y+d;
-            arr[x][y]=cnt;
-            cnt++;
-        }
-        jmax--;
-        for (int i = 0; i < jmax; i++) {
-            x=x+d;
-            arr[x][y]=cnt;
-            cnt++;
-        }
-        d=d*-1;
+    while (i >= j) {
+        printf("가위 바위 보 선택:");
+        scanf("%d", &i);
+        srand((int) time(NULL));
+        j = rand() % 3 + 1;
+        printf("%d \n", j);
+
+        printf("당신은 %s 선택, ", arr[i-1]);
+        printf("컴퓨터는 %s 선택, ", arr[j-1]);
+
+        if (i > j) {
+            printf("당신이 이겼습니다! \n");
+            win += 1;
+        } else if (i == j) {
+            printf("비겼습니다! \n");
+            draw += 1;
+        } else
+            printf("당신이 졌습니다! \n");
     }
-    for (x=0 ; x < max; x++) {
-        for (y = 0; y < max; y++) {
-            printf("%3d", arr[x][y]);
-        }
-        printf("\n");
-    }
-    printf("\n");
+    printf("%d승 %d무 \n", win, draw);
     return 0;
 }
+
