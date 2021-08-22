@@ -3,32 +3,52 @@
 #include <time.h>
 
 int main(void) {
-    int i = 0, j = 0;
-    int win = 0, draw = 0;
-    char arr[3][8] = {"가위", "바위", "보"};
+    int ComArr[3], YouArr[3];
+    int strike = 0, ball = 0;
 
-    printf("바위는 1, 가위는 2, 보는 3 \n");
+    printf("Start Game! \n");
+    srand((int) time(NULL));
 
-    while (i >= j) {
-        printf("가위 바위 보 선택:");
-        scanf("%d", &i);
-        srand((int) time(NULL));
-        j = rand() % 3 + 1;
-        printf("%d \n", j);
-
-        printf("당신은 %s 선택, ", arr[i-1]);
-        printf("컴퓨터는 %s 선택, ", arr[j-1]);
-
-        if (i > j) {
-            printf("당신이 이겼습니다! \n");
-            win += 1;
-        } else if (i == j) {
-            printf("비겼습니다! \n");
-            draw += 1;
-        } else
-            printf("당신이 졌습니다! \n");
+    for (int i = 0; i < 3; i++) {
+        ComArr[i] = rand() % 9 + 1;
+        for (int j = 0; j < i; j++) {
+            if (ComArr[i] == ComArr[j])
+                i--;
+        }
     }
-    printf("%d승 %d무 \n", win, draw);
+
+    for (int k = 1; k >= 0; k++) {
+        strike = 0, ball = 0;
+        printf("3개의 숫자 선택:");
+        scanf("%d %d %d", &YouArr[0], &YouArr[1], &YouArr[2]);
+
+        if (YouArr[0] == YouArr[1] || YouArr[1] == YouArr[2] || YouArr[2] == YouArr[0]) {
+            printf("중복된 숫자가 입력되었습니다. \n");
+            k--;
+            continue;
+        }
+        if (YouArr[0] == 0 || YouArr[1] == 0 || YouArr[2] == 0) {
+            printf("0 입력은 불가능합니다. \n");
+            k--;
+            continue;
+        }
+
+        for (int l = 0; l < 3; l++) {
+            if (ComArr[l] == YouArr[l])
+                strike += 1;
+            else
+                for (int m = 0; m < 3; m++) {
+                    if (l == m)
+                        continue;
+                    else if (ComArr[l] == YouArr[m])
+                        ball += 1;
+                }
+        }
+        printf("%d번째 도전 결과: %dstrike, %dball!! \n", k, strike, ball);
+        if (strike >= 3)
+            break;
+    }
+    printf("Game Over! \n");
     return 0;
 }
 
